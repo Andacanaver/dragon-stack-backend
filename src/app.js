@@ -4,6 +4,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require('./config')
+const Dragon = require('./dragon')
+const Generation = require('./generation')
+const GenerationEngine = require('./generationEngine')
+
 
 const app = express();
 
@@ -16,6 +20,14 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
+
+const engine = new GenerationEngine();
+
+engine.start();
+setTimeout(() => {
+    engine.stop();
+}, 20000)
+
 
 app.use(function errorHandler(error, req, res, next) {
     let response
