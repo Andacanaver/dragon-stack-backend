@@ -4,30 +4,31 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require('./config')
-const Dragon = require('./dragon')
-const Generation = require('./generation')
-const GenerationEngine = require('./generationEngine')
-
-
+const dragonRouter = require('./api/dragon')
 const app = express();
+const GenerationEngine = require('./app/generation/generationEngine')
+const generationRouter = require('./api/generation')
+
 
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
+const engine = new GenerationEngine()
 
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
+app.locals.engine = engine
+
+
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
 
-const engine = new GenerationEngine();
 
-engine.start();
-setTimeout(() => {
-    engine.stop();
-}, 20000)
+app.use('/dragon', dragonRouter)
+app.use('/generation', generationRouter)
 
+engine.start()
 
 app.use(function errorHandler(error, req, res, next) {
     let response

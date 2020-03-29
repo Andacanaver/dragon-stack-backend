@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "predeploy": "npm audit",
-    "deploy": "git push heroku master"
+    "deploy": "git push heroku master",
+    "configure": "./src/sql/configure_db.sh"
   },
   "keywords": [],
   "engines": {
@@ -22,7 +23,8 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "minimist": "^1.2.5",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^7.18.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
